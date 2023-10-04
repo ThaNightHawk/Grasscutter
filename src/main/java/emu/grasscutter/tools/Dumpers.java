@@ -19,7 +19,7 @@ public interface Dumpers {
     /**
      * Fetches the description of a command.
      *
-     * @param locale The locale to use.
+     * @param locale  The locale to use.
      * @param command The command to get the description of.
      * @return The description of the command.
      */
@@ -27,7 +27,8 @@ public interface Dumpers {
         try {
             // Get the language by the locale.
             var language = Language.getLanguage(locale);
-            if (language == null) throw new IllegalArgumentException("Invalid language.");
+            if (language == null)
+                throw new IllegalArgumentException("Invalid language.");
 
             return language.get("commands." + command.label() + ".description");
         } catch (IllegalArgumentException ignored) {
@@ -65,7 +66,8 @@ public interface Dumpers {
     static void dumpCommands(String locale) {
         // Check that commands are registered.
         var commandMap = CommandMap.getInstance();
-        if (commandMap == null) commandMap = new CommandMap(true);
+        if (commandMap == null)
+            commandMap = new CommandMap(true);
 
         // Convert all registered commands to an info map.
         var dump = new HashMap<String, CommandInfo>();
@@ -74,13 +76,12 @@ public interface Dumpers {
                 .forEach(
                         command -> {
                             var description = Dumpers.commandDescription(locale, command);
-                            var labels =
-                                    new ArrayList<String>() {
-                                        {
-                                            this.add(command.label());
-                                            this.addAll(List.of(command.aliases()));
-                                        }
-                                    };
+                            var labels = new ArrayList<String>() {
+                                {
+                                    this.add(command.label());
+                                    this.addAll(List.of(command.aliases()));
+                                }
+                            };
 
                             // Add the command info to the list.
                             dump.put(
@@ -96,7 +97,8 @@ public interface Dumpers {
         try {
             // Create a file for the dump.
             var file = new File("commands.json");
-            if (file.exists() && !file.delete()) throw new RuntimeException("Failed to delete file.");
+            if (file.exists() && !file.delete())
+                throw new RuntimeException("Failed to delete file.");
             if (!file.exists() && !file.createNewFile())
                 throw new RuntimeException("Failed to create file.");
 
@@ -137,7 +139,8 @@ public interface Dumpers {
         try {
             // Create a file for the dump.
             var file = new File("avatars.csv");
-            if (file.exists() && !file.delete()) throw new RuntimeException("Failed to delete file.");
+            if (file.exists() && !file.delete())
+                throw new RuntimeException("Failed to delete file.");
             if (!file.exists() && !file.createNewFile())
                 throw new RuntimeException("Failed to create file.");
 
@@ -162,14 +165,13 @@ public interface Dumpers {
         var originalDump = new ArrayList<ItemInfo>();
         GameData.getItemDataMap()
                 .forEach(
-                        (id, item) ->
-                                originalDump.add(
-                                        new ItemInfo(
-                                                id,
-                                                Language.getTextMapKey(item.getNameTextMapHash()).get(locale),
-                                                Quality.from(item.getRankLevel()),
-                                                item.getItemType(),
-                                                item.getIcon().length() > 0 ? item.getIcon().substring(3) : "")));
+                        (id, item) -> originalDump.add(
+                                new ItemInfo(
+                                        id,
+                                        Language.getTextMapKey(item.getNameTextMapHash()).get(locale),
+                                        Quality.from(item.getRankLevel()),
+                                        item.getItemType(),
+                                        item.getIcon().length() > 0 ? item.getIcon().substring(3) : "")));
 
         // Create a new dump with filtered duplicates.
         var names = new ArrayList<String>();
@@ -177,9 +179,12 @@ public interface Dumpers {
         originalDump.forEach(
                 item -> {
                     // Validate the item.
-                    if (item.name.contains("[CHS]")) return;
-                    if (names.contains(item.name)) return;
-                    if (dump.containsKey(item.id)) return;
+                    if (item.name.contains("[CHS]"))
+                        return;
+                    if (names.contains(item.name))
+                        return;
+                    if (dump.containsKey(item.id))
+                        return;
                     // Add the item to the dump.
                     names.add(item.name);
                     dump.put(item.id, item);
@@ -188,7 +193,8 @@ public interface Dumpers {
         try {
             // Create a file for the dump.
             var file = new File("items.csv");
-            if (file.exists() && !file.delete()) throw new RuntimeException("Failed to delete file.");
+            if (file.exists() && !file.delete())
+                throw new RuntimeException("Failed to delete file.");
             if (!file.exists() && !file.createNewFile())
                 throw new RuntimeException("Failed to create file.");
 
@@ -209,13 +215,13 @@ public interface Dumpers {
         var dump = new HashMap<Integer, SceneInfo>();
         GameData.getSceneDataMap()
                 .forEach(
-                        (id, scene) ->
-                                dump.put(id, new SceneInfo(scene.getScriptData(), scene.getSceneType())));
+                        (id, scene) -> dump.put(id, new SceneInfo(scene.getScriptData(), scene.getSceneType())));
 
         try {
             // Create a file for the dump.
             var file = new File("scenes.csv");
-            if (file.exists() && !file.delete()) throw new RuntimeException("Failed to delete file.");
+            if (file.exists() && !file.delete())
+                throw new RuntimeException("Failed to delete file.");
             if (!file.exists() && !file.createNewFile())
                 throw new RuntimeException("Failed to create file.");
 
@@ -254,7 +260,8 @@ public interface Dumpers {
         try {
             // Create a file for the dump.
             var file = new File("entities.csv");
-            if (file.exists() && !file.delete()) throw new RuntimeException("Failed to delete file.");
+            if (file.exists() && !file.delete())
+                throw new RuntimeException("Failed to delete file.");
             if (!file.exists() && !file.createNewFile())
                 throw new RuntimeException("Failed to create file.");
 
@@ -286,7 +293,9 @@ public interface Dumpers {
                                     new QuestInfo(
                                             langHash == 0
                                                     ? "Unknown"
-                                                    : Language.getTextMapKey(langHash).get(locale).replaceAll(",", "\\\\"),
+                                                    : (Language.getTextMapKey(langHash) != null ? Language
+                                                            .getTextMapKey(langHash).get(locale).replaceAll(",", "\\\\")
+                                                            : "Unknown"),
                                             quest.getMainId()));
                         });
 
@@ -301,13 +310,16 @@ public interface Dumpers {
                                     new MainQuestInfo(
                                             langHash == 0
                                                     ? "Unknown"
-                                                    : Language.getTextMapKey(langHash).get(locale).replaceAll(",", "\\\\")));
+                                                    : (Language.getTextMapKey(langHash) != null ? Language
+                                                            .getTextMapKey(langHash).get(locale).replaceAll(",", "\\\\")
+                                                            : "Unknown")));
                         });
 
         try {
             // Create a file for the dump.
             var file = new File("quests.csv");
-            if (file.exists() && !file.delete()) throw new RuntimeException("Failed to delete file.");
+            if (file.exists() && !file.delete())
+                throw new RuntimeException("Failed to delete file.");
             if (!file.exists() && !file.createNewFile())
                 throw new RuntimeException("Failed to create file.");
 
@@ -320,7 +332,8 @@ public interface Dumpers {
         try {
             // Create a file for the dump.
             var file = new File("mainquests.csv");
-            if (file.exists() && !file.delete()) throw new RuntimeException("Failed to delete file.");
+            if (file.exists() && !file.delete())
+                throw new RuntimeException("Failed to delete file.");
             if (!file.exists() && !file.createNewFile())
                 throw new RuntimeException("Failed to create file.");
 
@@ -357,7 +370,8 @@ public interface Dumpers {
         try {
             // Create a file for the dump.
             var file = new File("areas.csv");
-            if (file.exists() && !file.delete()) throw new RuntimeException("Failed to delete file.");
+            if (file.exists() && !file.delete())
+                throw new RuntimeException("Failed to delete file.");
             if (!file.exists() && !file.createNewFile())
                 throw new RuntimeException("Failed to create file.");
 
