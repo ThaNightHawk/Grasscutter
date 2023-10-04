@@ -11,6 +11,7 @@ public class PlayerGachaInfo {
 
     public PlayerGachaInfo() {
         this.standardBanner = new PlayerGachaBannerInfo();
+        this.beginnerBanner = new PlayerGachaBannerInfo();
         this.eventCharacterBanner = new PlayerGachaBannerInfo();
         this.eventWeaponBanner = new PlayerGachaBannerInfo();
     }
