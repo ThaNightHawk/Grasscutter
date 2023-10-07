@@ -2,13 +2,13 @@ import React, { ChangeEvent } from "react";
 
 import SideBarButton from "@app/ui/widgets/SideBarButton";
 
-import Icon_Version_Highlights from "@assets/Icon_Version_Highlights.webp";
-import Icon_Character_Lumine from "@assets/Icon_Character_Lumine.webp";
-import Icon_Inventory from "@assets/Icon_Inventory.webp";
-import Icon_Tutorial_Monster from "@assets/Icon_Tutorial_Monster.webp";
-import Icon_Map from "@assets/Icon_Map.webp";
-import Icon_Quests from "@assets/Icon_Quests.webp";
-import Icon_Achievements from "@assets/Icon_Achievements.webp";
+import Icon_Achievements from "@assets/Icon_Achievements.png";
+import Icon_Character_Lumine from "@assets/Icon_Character_Lumine.png";
+import Icon_Inventory from "@assets/Icon_Inventory.png";
+import Icon_Map from "@assets/Icon_Map.png";
+import Icon_Quests from "@assets/Icon_Quests.png";
+import Icon_Tutorial_Monster from "@assets/Icon_Tutorial_Monster.png";
+import Icon_Version_Highlights from "@assets/Icon_Version_Highlights.png";
 
 import events, { navigate } from "@backend/events";
 import { targetPlayer, lockedPlayer, setTargetPlayer } from "@backend/server";

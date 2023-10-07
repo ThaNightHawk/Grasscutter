@@ -4,13 +4,13 @@ import HomeButton from "@widgets/HomeButton";
 
 import { ReactComponent as DiscordLogo } from "@icons/discord.svg";
 
-import Icon_Version_Highlights from "@assets/Icon_Version_Highlights.webp";
-import Icon_Character_Lumine from "@assets/Icon_Character_Lumine.webp";
-import Icon_Inventory from "@assets/Icon_Inventory.webp";
-import Icon_Tutorial_Monster from "@assets/Icon_Tutorial_Monster.webp";
-import Icon_Map from "@assets/Icon_Map.webp";
-import Icon_Quests from "@assets/Icon_Quests.webp";
-import Icon_Achievements from "@assets/Icon_Achievements.webp";
+import Icon_Version_Highlights from "@assets/Icon_Version_Highlights.png";
+import Icon_Character_Lumine from "@assets/Icon_Character_Lumine.png";
+import Icon_Inventory from "@assets/Icon_Inventory.png";
+import Icon_Tutorial_Monster from "@assets/Icon_Tutorial_Monster.png";
+import Icon_Map from "@assets/Icon_Map.png";
+import Icon_Quests from "@assets/Icon_Quests.png";
+import Icon_Achievements from "@assets/Icon_Achievements.png";
 
 import { openUrl } from "@app/utils";
 
