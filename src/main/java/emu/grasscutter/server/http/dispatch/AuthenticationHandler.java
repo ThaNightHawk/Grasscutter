@@ -97,8 +97,7 @@ public final class AuthenticationHandler implements Router {
         // Cached token login (from registry).
         javalin.post("/hk4e_global/mdk/shield/api/verify", AuthenticationHandler::tokenLogin);
         // Combo token login (from session key).
-        javalin.post(
-                "/hk4e_global/combo/granter/login/v2/login", AuthenticationHandler::sessionKeyLogin);
+        javalin.post("/hk4e_global/combo/granter/login/v2/login", AuthenticationHandler::sessionKeyLogin);
 
         // CN
         // Username & Password login (from client).

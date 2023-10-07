@@ -57,6 +57,41 @@ public final class AnnouncementsHandler implements Router {
         ctx.result("{\"retcode\":0,\"message\":\"OK\",\"data\": " + data + "}");
     }
 
+    private static void getPriceTier(Context ctx) {
+        String data = "";
+        if (Objects.equals(
+                ctx.endpointHandlerPath(), "/hk4e_global/mdk/shopwindow/shopwindow/listPriceTier")) {
+            try {
+                data = FileUtils.readToString(DataLoader.load("PriceTierList.json"));
+                Grasscutter.getLogger().info("Found PriceTierList.json");
+            } catch (Exception e) {
+                if (e.getClass() == IOException.class) {
+                    Grasscutter.getLogger().info("Unable to read file 'PriceTierList.json'. \n" + e);
+                }
+            }
+        } else {
+            ctx.result("{\"retcode\":404,\"message\":\"Unknown request path\"}");
+        }
+
+        if (data.isEmpty()) {
+            ctx.result("{\"retcode\":500,\"message\":\"Unable to fetch requsted content\"}");
+            return;
+        }
+
+        String dispatchDomain =
+                "http"
+                        + (HTTP_ENCRYPTION.useInRouting ? "s" : "")
+                        + "://"
+                        + lr(HTTP_INFO.accessAddress, HTTP_INFO.bindAddress)
+                        + ":"
+                        + lr(HTTP_INFO.accessPort, HTTP_INFO.bindPort);
+
+        data =
+                data.replace("{{DISPATCH_PUBLIC}}", dispatchDomain)
+                        .replace("{{SYSTEM_TIME}}", String.valueOf(System.currentTimeMillis()));
+        ctx.result("{\"retcode\":0,\"message\":\"OK\",\"data\": " + data + "}");
+    }
+
     private static void getPageResources(Context ctx) {
         // Re-process the path - remove the first slash and prevent directory traversal
         // (the first slash will act as root path when resolving local path)
@@ -110,8 +145,7 @@ public final class AnnouncementsHandler implements Router {
         this.allRoutes(
                 javalin,
                 "/hk4e_global/mdk/shopwindow/shopwindow/listPriceTier",
-                new HttpJsonResponse(
-                        "{\"retcode\":0,\"message\":\"OK\",\"data\":{\"suggest_currency\":\"USD\",\"tiers\":[]}}"));
+                AnnouncementsHandler::getPriceTier);
 
         javalin.get("/hk4e/announcement/*", AnnouncementsHandler::getPageResources);
     }
